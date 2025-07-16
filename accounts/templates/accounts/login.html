@@ -1,0 +1,48 @@
+{% extends "public/base_public.html" %}
+
+{% block title %}Login - Regulatory Management Platform{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="form-container">
+        <h2 class="text-center mb-4">Sign In</h2>
+        <p class="text-center mb-4">Access your Regulatory Management Platform account.</p>
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}">Username</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <div class="alert alert-danger mt-2">
+                        {{ form.username.errors }}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.password.id_for_label }}">Password</label>
+                {{ form.password }}
+                {% if form.password.errors %}
+                    <div class="alert alert-danger mt-2">
+                        {{ form.password.errors }}
+                    </div>
+                {% endif %}
+            </div>
+            
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+            
+            <button type="submit" class="btn" style="width: 100%; margin-bottom: 1rem;">Sign In</button>
+        </form>
+        
+        <div class="text-center">
+            <p>Don't have an account? <a href="{% url 'register' %}">Create one here</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
