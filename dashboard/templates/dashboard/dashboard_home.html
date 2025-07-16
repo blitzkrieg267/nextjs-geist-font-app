@@ -1,0 +1,74 @@
+{% extends "dashboard/base_admin.html" %}
+
+{% block title %}Dashboard Home - Regulatory Management Platform{% endblock %}
+{% block page_title %}Dashboard Overview{% endblock %}
+
+{% block content %}
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-number">{{ user_count }}</div>
+        <div class="stat-label">Total Users</div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-number">{{ staff_count }}</div>
+        <div class="stat-label">Admin Users</div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-number">{{ active_users }}</div>
+        <div class="stat-label">Active Users</div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-number">0</div>
+        <div class="stat-label">Documents</div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>Recent Users</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Joined</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in recent_users %}
+                <tr>
+                    <td><a href="{% url 'user-detail' user.pk %}">{{ user.username }}</a></td>
+                    <td>{{ user.first_name }} {{ user.last_name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.date_joined|date:"M d, Y" }}</td>
+                    <td>
+                        {% if user.is_active %}
+                            <span style="color: #28a745;">Active</span>
+                        {% else %}
+                            <span style="color: #dc3545;">Inactive</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center">No users found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="card">
+    <h3>Quick Actions</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+        <a href="{% url 'user-list' %}" class="btn">Manage Users</a>
+        <a href="#" class="btn btn-secondary">Upload Documents</a>
+        <a href="#" class="btn btn-secondary">Manage FAQs</a>
+        <a href="#" class="btn btn-secondary">View Checklists</a>
+    </div>
+</div>
+{% endblock %}
